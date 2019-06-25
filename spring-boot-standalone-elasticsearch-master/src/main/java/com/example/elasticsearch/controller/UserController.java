@@ -68,7 +68,7 @@ public class UserController {
 		// return getResponse.getSource();
 		Map<String, Object> res = new LinkedHashMap<>();
 		String key = "data";
-		SearchResponse result = client.prepareSearch("users").get();
+		SearchResponse result = client.prepareSearch("users").setTypes("employee").get();
 		List<SearchHit> l = Arrays.asList(result.getHits().getHits());
 		l.stream().forEach(a -> {
 			@SuppressWarnings("unchecked")
