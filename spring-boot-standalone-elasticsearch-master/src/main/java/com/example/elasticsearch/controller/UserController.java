@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.elasticsearch.model.User;
+import com.example.elasticsearch.req.BaseReq;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,8 +61,8 @@ public class UserController {
 		return response.getResult().toString();
 	}
 
-	@GetMapping("/view/{id}")
-	public Map<String, Object> view(@PathVariable final String id) {
+	@GetMapping("/view")
+	public Map<String, Object> view() {
 		// GetResponse getResponse = client.prepareGet("users", "employee", id).get();
 		// System.out.println(getResponse.getSource());
 
@@ -82,6 +83,28 @@ public class UserController {
 
 			lData.add(m);
 			res.put(key, lData);
+			res.put(key + "" + a.id(), a.id());
+		});
+
+		return res;
+	}
+
+	@PostMapping("/view")
+	public Map<String, Object> find(@RequestBody final BaseReq req) {
+		// GetResponse getResponse = client.prepareGet("users", "employee", id).get();
+		// System.out.println(getResponse.getSource());
+
+		// return getResponse.getSource();
+		Map<String, Object> res = new LinkedHashMap<>();
+		String key = "data";
+		SearchResponse result = client.prepareSearch("users").setTypes("employee").get();
+		List<SearchHit> l = Arrays.asList(result.getHits().getHits());
+		l.stream().forEach(i -> {
+			ObjectMapper mapper = new ObjectMapper();
+			User m = mapper.convertValue(i.getSource(), User.class);
+			if(m.getName().contains(req.getKeyword())) {
+				res.put(key + i.getId(), m);
+			}
 		});
 
 		return res;
@@ -95,13 +118,13 @@ public class UserController {
 
 		List<SearchHit> searchHits = Arrays.asList(response.getHits().getHits());
 		map = searchHits.get(0).getSource();
+		
 		return map;
 
 	}
 
 	@GetMapping("/update/{id}")
 	public String update(@PathVariable final String id) throws IOException {
-
 		UpdateRequest updateRequest = new UpdateRequest();
 		updateRequest.index("users").type("employee").id(id)
 				.doc(jsonBuilder().startObject().field("name", "Rajesh").endObject());

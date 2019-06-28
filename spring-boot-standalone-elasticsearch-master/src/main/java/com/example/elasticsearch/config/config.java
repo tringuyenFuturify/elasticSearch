@@ -17,22 +17,14 @@ public class config {
 
 	@Value("${elasticsearch.host:localhost}")
 	public String host;
+
 	@Value("${elasticsearch.port:9300}")
 	public int port;
-
-	public String getHost() {
-		return host;
-	}
-
-	public int getPort() {
-		return port;
-	}
 
 	@Bean
 	public Client client() {
 		TransportClient client = null;
 		try {
-			System.out.println("host:" + host + "port:" + port);
 			client = new PreBuiltTransportClient(Settings.EMPTY)
 					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
