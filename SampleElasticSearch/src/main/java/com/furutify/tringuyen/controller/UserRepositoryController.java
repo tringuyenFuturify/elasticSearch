@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -36,14 +37,16 @@ import com.google.gson.Gson;
 @RequestMapping("/repo")
 public class UserRepositoryController {
 
+	@Autowired
+	private UserDao userDao;
+
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> callLogInAccountRVezy() throws Exception {
 		@SuppressWarnings("deprecation")
 		CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> {
 			String url = "https://rvezy-uat-auth.futurify.io";
-			url = "http://localhost:60600";
-			url += "/token";
-
+			String port = ":80";
+			String finalUrl = url + port + "/token";
 			// RestTemplate rest = new RestTemplate();
 			RestTemplate rest = new RestTemplateBuilder().setConnectTimeout(10 * 1000).setReadTimeout(10 * 1000)
 					.build();
@@ -57,8 +60,8 @@ public class UserRepositoryController {
 			m.add("Password", "123123");
 
 			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(m, headers);
-			ResponseEntity<String> response = rest.exchange(url, HttpMethod.POST, request, String.class);
-			String result = response.getBody(); // json
+			ResponseEntity<String> response = rest.exchange(finalUrl, HttpMethod.POST, request, String.class);
+			String result = response.getBody(); // json as stringify
 
 			Gson gson = new Gson();
 			Map<String, Object> res = gson.fromJson(result, Map.class);
@@ -77,9 +80,6 @@ public class UserRepositoryController {
 
 		return future.get();
 	}
-
-	@Autowired
-	private UserDao userDao;
 
 	@RequestMapping("/all")
 	public ResponseEntity<?> getAllUsers() {
