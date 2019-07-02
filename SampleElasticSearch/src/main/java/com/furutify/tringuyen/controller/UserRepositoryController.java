@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furutify.tringuyen.dao.UserDao;
 import com.furutify.tringuyen.model.User;
 
@@ -36,6 +37,19 @@ public class UserRepositoryController {
 	public User addNewUsers(@RequestBody User user) {
 		userDao.save(user);
 		return user;
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.PUT)
+	public User editNewUsers(@RequestBody User user) {
+		User m = userDao.findById(user.getUserId()).orElse(null);
+		
+		if(m != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			m = mapper.convertValue(user, User.class);
+			userDao.save(m);
+		}
+		
+		return m;
 	}
 
 }
