@@ -3,6 +3,7 @@ package com.furutify.tringuyen.controller;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,28 +28,29 @@ public class UserRepositoryController {
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();
 		users = StreamSupport.stream(userDao.findAll().spliterator(), false)
-				.sorted(Comparator.comparing(User::getUserId))
-				.collect(Collectors.toList());
-		//userDao.findAll().forEach(users::add);
+				.sorted(Comparator.comparing(User::getUserId)/* .reversed() */).collect(Collectors.toList());
+		// userDao.findAll().forEach(users::add);
 		return users;
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public User addNewUsers(@RequestBody User user) {
+		UUID uuid = UUID.randomUUID();
+		user.setUserId(uuid.toString());
 		userDao.save(user);
 		return user;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.PUT)
 	public User editNewUsers(@RequestBody User user) {
 		User m = userDao.findById(user.getUserId()).orElse(null);
-		
-		if(m != null) {
+
+		if (m != null) {
 			ObjectMapper mapper = new ObjectMapper();
 			m = mapper.convertValue(user, User.class);
 			userDao.save(m);
 		}
-		
+
 		return m;
 	}
 
