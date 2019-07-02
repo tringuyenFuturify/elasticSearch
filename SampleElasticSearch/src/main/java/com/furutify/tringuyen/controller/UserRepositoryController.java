@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -66,15 +65,14 @@ public class UserRepositoryController {
 			Gson gson = new Gson();
 			Map<String, Object> res = gson.fromJson(result, Map.class);
 			res.put("isSuccess", true);
-			
+
 			return res;
-		})
-		.exceptionally((e) -> {
+		}).exceptionally((e) -> {
 			Map<String, Object> res = new LinkedHashMap<>();
-			
+
 			res.put("isSuccess", false);
 			res.put("exception", e);
-			
+
 			return res;
 		});
 
