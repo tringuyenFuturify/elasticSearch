@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.furutify.tringuyen.dao.UserService;
 import com.furutify.tringuyen.model.User;
+import com.furutify.tringuyen.service.UserService;
 
 @RestController
 public class UserController {

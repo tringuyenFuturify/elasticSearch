@@ -44,7 +44,7 @@ public class UserRepositoryController {
 		@SuppressWarnings("deprecation")
 		CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> {
 			String url = "https://rvezy-uat-auth.futurify.io";
-			String port = ":80";
+			String port = "";
 			String finalUrl = url + port + "/token";
 			// RestTemplate rest = new RestTemplate();
 			RestTemplate rest = new RestTemplateBuilder().setConnectTimeout(10 * 1000).setReadTimeout(10 * 1000)
@@ -55,8 +55,8 @@ public class UserRepositoryController {
 
 			MultiValueMap<String, String> m = new LinkedMultiValueMap<>();
 			m.add("UserName", "nhanpham@futurify.vn");
-			// m.add("Password", "kocopass.123");
-			m.add("Password", "123123");
+			m.add("Password", "kocopass.123");
+			//m.add("Password", "123123");
 
 			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(m, headers);
 			ResponseEntity<String> response = rest.exchange(finalUrl, HttpMethod.POST, request, String.class);
