@@ -1,6 +1,5 @@
 package com.furutify.tringuyen.service.impl;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import com.furutify.tringuyen.service.SubscriberService;
@@ -9,7 +8,7 @@ import com.furutify.tringuyen.service.SubscriberService;
 public class SubscriberServiceImpl implements SubscriberService {
 
 	@Override
-	@RabbitListener(queues="${jsa.rabbitmq.queue}")
+	// @RabbitListener(queues = "${jsa.rabbitmq.queue}")
 	public void receiveMsg(String msg) {
 		System.out.println("Received Message: " + msg);
 	}
