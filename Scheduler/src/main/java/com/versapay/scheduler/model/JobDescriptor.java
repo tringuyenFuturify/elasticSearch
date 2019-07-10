@@ -27,24 +27,24 @@ public class JobDescriptor {
 	// TODO add boolean fields for HTML and Attachments
 	@NotBlank
 	private String name;
-	
+
 	private String group;
-	
+
 	@NotEmpty
 	private String subject;
-	
+
 	@NotEmpty
 	private String messageBody;
-	
+
 	@NotEmpty
-	private String to;
-	
-	private String cc;
-	
-	private String bcc;
-	
+	private List<String> to;
+
+	private List<String> cc;
+
+	private List<String> bcc;
+
 	private Map<String, Object> data = new LinkedHashMap<>();
-	
+
 	@JsonProperty("triggers")
 	private List<TriggerDescriptor> triggerDescriptors = new ArrayList<>();
 
@@ -68,17 +68,17 @@ public class JobDescriptor {
 		return this;
 	}
 
-	public JobDescriptor setTo(String to) {
+	public JobDescriptor setTo(List<String> to) {
 		this.to = to;
 		return this;
 	}
 
-	public JobDescriptor setCc(String cc) {
+	public JobDescriptor setCc(List<String> cc) {
 		this.cc = cc;
 		return this;
 	}
 
-	public JobDescriptor setBcc(String bcc) {
+	public JobDescriptor setBcc(List<String> bcc) {
 		this.bcc = bcc;
 		return this;
 	}
@@ -132,6 +132,7 @@ public class JobDescriptor {
 	 * @param triggersOfJob the Trigger(s) to associate with the Job
 	 * @return the JobDescriptor
 	 */
+	@SuppressWarnings("unchecked")
 	public static JobDescriptor buildDescriptor(JobDetail jobDetail, List<? extends Trigger> triggersOfJob) {
 		// @formatter:off
 		List<TriggerDescriptor> triggerDescriptors = new ArrayList<>();
@@ -143,8 +144,9 @@ public class JobDescriptor {
 		return new JobDescriptor().setName(jobDetail.getKey().getName()).setGroup(jobDetail.getKey().getGroup())
 				.setSubject(jobDetail.getJobDataMap().getString("subject"))
 				.setMessageBody(jobDetail.getJobDataMap().getString("messageBody"))
-				.setTo(jobDetail.getJobDataMap().getString("to")).setCc(jobDetail.getJobDataMap().getString("cc"))
-				.setBcc(jobDetail.getJobDataMap().getString("bcc"))
+				.setTo((List<String>) jobDetail.getJobDataMap().get("to"))
+				.setCc((List<String>) jobDetail.getJobDataMap().get("cc"))
+				.setBcc((List<String>) jobDetail.getJobDataMap().get("bcc"))
 				// .setData(jobDetail.getJobDataMap().getWrappedMap())
 				.setTriggerDescriptors(triggerDescriptors);
 		// @formatter:on

@@ -3,6 +3,7 @@ package com.versapay.scheduler.service;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -13,6 +14,7 @@ import com.sendgrid.Content;
 import com.sendgrid.Email;
 import com.sendgrid.Mail;
 import com.sendgrid.Method;
+import com.sendgrid.Personalization;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
@@ -22,21 +24,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EmailService implements Job {
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unchecked")
 	private void sendEmail(JobDataMap map) {
 		try {
-			String to = map.getString("to");
-			String cc = map.getString("cc");
-			String bcc = map.getString("bcc");
+			List<String> to = (List<String>) map.get("to");
+			List<String> cc = (List<String>) map.get("cc");
+			List<String> bcc = (List<String>) map.get("bcc");
 			String subject = map.getString("subject");
 			String messageBody = map.getString("messageBody");
 
 			String from = "tringuyen@futurify.vn";
 
-			Email eFrom = new Email(from);
-			Email eTo = new Email(to);
+			Email eFrom = new Email();
+			eFrom.setEmail(from);
+			eFrom.setName("Testing scheduler");
+
+			Personalization p = new Personalization();
+			to.stream().forEach(i -> {
+				p.addTo(new Email(i));
+			});
+			if (cc != null) {
+				cc.stream().forEach(i -> {
+					p.addCc(new Email(i));
+				});
+			}
+			if (bcc != null) {
+				bcc.stream().forEach(i -> {
+					p.addBcc(new Email(i));
+				});
+			}
+
 			Content content = new Content("text/html", messageBody);
-			Mail mail = new Mail(eFrom, subject, eTo, content);
+			Mail mail = new Mail();
+			mail.setFrom(eFrom);
+			mail.addPersonalization(p);
+			mail.setSubject(subject);
+			mail.addContent(content);
 
 			String skey = System.getenv("SENDGRID_API_KEY");
 			if (isEmpty(skey)) {
