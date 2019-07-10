@@ -65,15 +65,22 @@ public class TriggerDescriptor {
 		if (!isEmpty(cron)) {
 			if (!isValidExpression(cron))
 				throw new IllegalArgumentException("Provided expression " + cron + " is not a valid cron expression");
-			return newTrigger().withIdentity(buildName(), group).withSchedule(cronSchedule(cron)
-					.withMisfireHandlingInstructionFireAndProceed().inTimeZone(TimeZone.getTimeZone(systemDefault())))
-					.usingJobData("cron", cron).build();
+			return newTrigger()
+					.withIdentity(buildName(), group)
+					.withSchedule(cronSchedule(cron)
+						.withMisfireHandlingInstructionFireAndProceed()
+						.inTimeZone(TimeZone.getTimeZone(systemDefault())))
+					.usingJobData("cron", cron)
+					.build();
 		} else if (!isEmpty(fireTime)) {
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put("fireTime", fireTime);
-			return newTrigger().withIdentity(buildName(), group)
+			return newTrigger()
+					.withIdentity(buildName(), group)
 					.withSchedule(simpleSchedule().withMisfireHandlingInstructionNextWithExistingCount())
-					.startAt(Date.from(fireTime.atZone(systemDefault()).toInstant())).usingJobData(jobDataMap).build();
+					.startAt(Date.from(fireTime.atZone(systemDefault()).toInstant()))
+					.usingJobData(jobDataMap)
+					.build();
 		}
 		// @formatter:on
 		throw new IllegalStateException("unsupported trigger descriptor " + this);
@@ -86,7 +93,9 @@ public class TriggerDescriptor {
 	 */
 	public static TriggerDescriptor buildDescriptor(Trigger trigger) {
 		// @formatter:off
-		return new TriggerDescriptor().setName(trigger.getKey().getName()).setGroup(trigger.getKey().getGroup())
+		return new TriggerDescriptor()
+				.setName(trigger.getKey().getName())
+				.setGroup(trigger.getKey().getGroup())
 				.setFireTime((LocalDateTime) trigger.getJobDataMap().get("fireTime"))
 				.setCron(trigger.getJobDataMap().getString("cron"));
 		// @formatter:on
