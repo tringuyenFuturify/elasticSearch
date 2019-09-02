@@ -1,0 +1,38 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>demo</groupId>
+        <artifactId>demo</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
+        <spring.boot.maven.plugin>2.1.7.RELEASE</spring.boot.maven.plugin>
+        <spring-boot-starter-version>2.1.2.RELEASE</spring-boot-starter-version>
+    </properties>
+
+    <artifactId>core-services</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>server-config</module>
+        <module>server-eureka</module>
+        <module>server-zuul</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.maven.plugin}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

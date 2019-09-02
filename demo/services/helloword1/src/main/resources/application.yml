@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: helloworld1
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      name: helloworld1, cloud
