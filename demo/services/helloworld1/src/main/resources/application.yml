@@ -1,6 +1,6 @@
 spring:
   application:
-    name: authserver
+    name: helloworld1
   profiles:
     active:
       default
@@ -8,4 +8,4 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8888
-      name: cloud, database, authserver
+      name: helloworld1, cloud, database

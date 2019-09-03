@@ -22,6 +22,7 @@
         <module>server-config</module>
         <module>server-eureka</module>
         <module>server-zuul</module>
+		<module>server-auth</module>
     </modules>
 
     <build>
