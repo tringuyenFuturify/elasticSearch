@@ -42,7 +42,15 @@ public class Users {
   @NotBlank(message = "Name is mandatory.")
   private String name;
 
+  private String passwordHash;
+
   private Boolean active = true;
+
+  private Boolean isLoacked = false;
+
+  private Boolean isExpired = false;
+
+  private Boolean isEnabled = true;
 
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   @ManyToOne

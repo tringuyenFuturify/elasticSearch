@@ -1,11 +1,9 @@
 #
-# Eureka Client Definition
+# Security Definition
 #
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+security:
+  config:
+    time: 36000000 #10h
+    prefix: "Bearer "
+    key: secret
+    header: Authorization

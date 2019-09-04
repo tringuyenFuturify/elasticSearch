@@ -9,4 +9,5 @@ spring:
             classpath:shared/security,
             classpath:config/service/helloworld1,
             classpath:config/service/helloworld2,
+            classpath:config/service/frp-api,
             classpath:config/service/authserver

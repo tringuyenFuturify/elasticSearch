@@ -4,6 +4,6 @@ import com.example.demo.model.Users;
 
 public interface UsersService {
 
-	public Users signIn(String email, String password);
+  public String signIn(String email, String password);
 
 }
