@@ -5,5 +5,5 @@ security:
   config:
     time: 36000000 #10h
     prefix: "Bearer "
-    key: secret
-    header: Authorization
+    key: "secret"
+    header: "Authorization"

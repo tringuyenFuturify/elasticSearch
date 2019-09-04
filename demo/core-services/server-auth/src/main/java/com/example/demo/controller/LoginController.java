@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,12 @@ public class LoginController {
 
   @PostMapping("/api/login")
   public ResponseEntity<?> signIn(@Valid @RequestBody UsersRequest request) {
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok(usersService.signIn(request.getEmail(), request.getPassword()));
+  }
+  
+  @GetMapping("/api")
+  public String test() {
+    return "abcd";
   }
 
 }

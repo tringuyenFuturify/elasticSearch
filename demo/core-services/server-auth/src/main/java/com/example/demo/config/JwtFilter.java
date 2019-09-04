@@ -7,15 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import lombok.extern.slf4j.Slf4j;
 
+@Component
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
-
-  private final SecurityProperties securityProperties;
 
   private final JwtTokenProvider jwtTokenProvider;
 
-  public JwtFilter(SecurityProperties securityProperties, JwtTokenProvider jwtTokenProvider) {
+  private final SecurityProperties securityProperties;
+
+  public JwtFilter(JwtTokenProvider jwtTokenProvider, SecurityProperties securityProperties) {
     this.jwtTokenProvider = jwtTokenProvider;
     this.securityProperties = securityProperties;
   }
@@ -31,10 +35,12 @@ public class JwtFilter extends OncePerRequestFilter {
         Authentication auth = jwtTokenProvider.getAuthentication(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
       } else {
-        throw new RuntimeException("Authorized token has expired.");
+        log.error("meet1");
+        // throw new RuntimeException("Authorized token has expired.");
       }
     } else {
-      throw new RuntimeException("Invalid authorized token.");
+      log.error("meet");
+      // throw new RuntimeException("Invalid authorized token.");
     }
 
     chain.doFilter(req, res);
