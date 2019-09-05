@@ -35,12 +35,10 @@ public class JwtFilter extends OncePerRequestFilter {
         Authentication auth = jwtTokenProvider.getAuthentication(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
       } else {
-        log.error("meet1");
-        // throw new RuntimeException("Authorized token has expired.");
+        log.error("Authorized token has expired.");
       }
     } else {
-      log.error("meet");
-      // throw new RuntimeException("Invalid authorized token.");
+      log.error("Invalid authorized token.");
     }
 
     chain.doFilter(req, res);

@@ -1,10 +1,12 @@
 package com.example.demo.config;
 
+import java.io.IOException;
 import java.util.Date;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import com.example.demo.common.Utils;
 import com.example.demo.dto.UserDetail;
 import com.example.demo.model.Users;
 import io.jsonwebtoken.Claims;
@@ -35,20 +37,20 @@ public class JwtTokenProvider {
   }
 
   public boolean validateToken(String token) {
-    return new Date().after(readToken(token).getExpiration());
+    return new Date().before(readToken(token).getExpiration());
   }
 
   public String getUsernameFromToken(String token) {
     return readToken(token).getSubject();
   }
 
-  private UserDetails getUserDetails(String token) {
+  private UserDetails getUserDetails(String token) throws IllegalArgumentException, IOException {
     String email = readToken(token).getSubject();
-    Users profile = (Users) readToken(token).get("profile");
+    Users profile = Utils.convertTo(new Users(), readToken(token).get("profile"), Users.class);
     return new UserDetail(email, new String[] {profile.getRole().getRole()});
   }
 
-  public Authentication getAuthentication(String token) {
+  public Authentication getAuthentication(String token) throws IllegalArgumentException, IOException {
     UserDetails userDetails = getUserDetails(token);
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
