@@ -1,0 +1,28 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: zuulserver
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      name: cloud, database, security, zuulserver
+#
+# Routing
+#
+
+zuul:
+  add-proxy-headers: true
+  sensitive-headers:
+#
+# Making Zuul not to timeout.
+#
+
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+  SocketTimeout: 60000

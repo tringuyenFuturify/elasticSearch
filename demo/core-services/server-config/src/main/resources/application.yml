@@ -1,13 +1,12 @@
 spring:
-  cloud:
-    config:
-      server:
-        native:
-          search-locations: >
-            classpath:shared/cloud,
-            classpath:shared/database,
-            classpath:shared/security,
-            classpath:config/service/helloworld1,
-            classpath:config/service/helloworld2,
-            classpath:config/service/frp-api,
-            classpath:config/service/authserver
+   cloud:
+      config:
+         server:
+            native:
+               search-locations: >
+                  classpath:shared/cloud, 
+                  classpath:shared/database, 
+                  classpath:shared/security, 
+                  classpath:config/service/hello-world-3, 
+                  classpath:config/service/frp-api, 
+                  classpath:config/service/authserver

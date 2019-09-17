@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>demo</groupId>
-        <artifactId>demo</artifactId>
+        <groupId>io.futurify.frp</groupId>
+        <artifactId>frp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 	
@@ -19,8 +19,8 @@
     <packaging>pom</packaging>
 
 	<modules>
-		<module>helloworld1</module>
-		<module>helloworld2</module>
+		<module>frp-api</module>
+		<module>hello-world-3</module>
 	</modules>
 	
 	<build>

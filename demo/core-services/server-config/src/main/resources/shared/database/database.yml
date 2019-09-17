@@ -2,8 +2,8 @@
 # Development parameters for DB
 #
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/demo
+  datasource:  
+    url: jdbc:mysql://localhost:3306/frp
     username: root
   jpa:
     hibernate.ddl-auto: none

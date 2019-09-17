@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>demo</groupId>
-        <artifactId>demo</artifactId>
+        <groupId>io.futurify.frp</groupId>
+        <artifactId>frp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -21,6 +21,7 @@
     <modules>
         <module>server-eureka</module>
         <module>server-config</module>
+		<module>server-zuul</module>
 		<module>server-auth</module>
     </modules>
 
